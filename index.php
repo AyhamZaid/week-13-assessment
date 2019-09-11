@@ -66,14 +66,14 @@
        <li>After submission, the page should be redirect to new page.</li>
        <li>The new page should display, "Hello (username)" </li>
 </ul>
-<form>
+<form  action="welcome.php" method="POST">
     <div class="container">
         <h1>Register</h1>
         <p>Please fill in this form to create an account.</p>
         <hr>
 
-        <label for="email"><b>Email</b></label>
-        <input type="text" placeholder="Enter Email" name="email" required>
+        <label for="username"><b>username</b></label>
+        <input type="text" placeholder="Enter Email" name="username" required>
 
         <label for="psw"><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="psw" required>
@@ -84,8 +84,8 @@
         <label for="email"><b>Email</b></label>
         <input type="text" placeholder="Email" name="email" required>
 
-        <label for="phone-number"><b>Phone Number</b></label>
-        <input type="text" placeholder="phone-number" name="phone-number" required>
+        <label for="phone_number"><b>Phone Number</b></label>
+        <input type="text" placeholder="phone_number" name="phone_number" required>
         <hr>
 
         <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
@@ -98,5 +98,72 @@
 </form>
 </body>
 <?php
+session_start();
+require_once "config.php";
+$username = $email = $password = $phone_number ="";
+$username_err = $email_err= $password_err= $phone_number_err  = "";
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+ 
+    
+    if(empty(trim($_POST["username"]))){
+        $username_err = "Please enter a username.";
+    } else{
+           
+        $sql = "SELECT id FROM users WHERE username = :username";
+        
+    }
+    }
+    if(empty(trim($_POST["email"]))){
+        $email_err = "Please enter a username.";
+    } else{
+        
+        $sql = "SELECT id FROM users WHERE email = :email";
+    }
 
+
+    if(empty(trim($_POST["password"]))){
+        $password_err = "Please enter a password.";     
+    } elseif(strlen(trim($_POST["password"])) < 6){
+        $password_err = "Password must have atleast 6 characters.";
+    } else{
+        $password = trim($_POST["password"]);
+    }
+
+
+
+    if(empty(trim($_POST["phone_number"]))){
+        $phone_number_arr = "Please enter a phone number.";
+    } else{
+       
+        $sql = "SELECT id FROM users WHERE phone_number = :phone_number";
+    }
+
+    if(empty($username_err) && empty($email_err) && empty($$phone_number) && empty($password_err)){
+        
+   
+        $sql = "INSERT INTO users (username, email,phone_number,password) VALUES (:username, :email, :phone_phone, :password)";
+         
+    }
+
+
+?>
+
+
+
+<!-- CREATE TABLE `users` (
+  `id` int(25) NOT NULL,
+  `username` varchar(30) NOT NULL,
+  `password` int(20) NOT NULL,
+  `email` varchar(25) NOT NULL,
+  `phone_number` int(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `phone_number`) VALUES
+(1, 'Ayham', 123456789, 'email', 0);
+
+-- -->
 
